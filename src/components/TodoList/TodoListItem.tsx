@@ -44,7 +44,7 @@ const TodoListItem = ({item}:IProps) => {
             tabIndex={-1}
           />
         </ListItemIcon>
-        <ListItemText primary={`Line item ${item.id}`} />
+        <ListItemText primary={item.title} />
       </ListItemButton>
     </ListItem>
   );

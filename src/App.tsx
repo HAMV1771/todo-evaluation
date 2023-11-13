@@ -3,6 +3,7 @@ import React, { createContext, useState } from 'react';
 import './App.css';
 import TodoList from './components/TodoList';
 import { ITodoListItem } from './components/TodoList/TodoListItem';
+import NewTodo from './components/NewTodo';
 
 interface ITodoState {
   items: ITodoListItem[];
@@ -10,7 +11,7 @@ interface ITodoState {
 
 interface ITodoContext {
   state: ITodoState;
-  set: Function;
+  newTodo: (todo: ITodoListItem) => void;
 };
 
 const initialState:ITodoState = {
@@ -35,10 +36,21 @@ export const TodoContext = createContext<ITodoContext | null>(null);
 function App() {
   const [todoContext, setTodoContext] = useState<ITodoState>(initialState);
 
+  const newTodo = (todo:ITodoListItem) => {
+    setTodoContext((prevState:ITodoState) => ({
+      ...prevState,
+      items: [
+        ...prevState.items,
+        todo
+      ]
+    }));
+  }
+
   return (
-    <TodoContext.Provider value={{state: todoContext, set: setTodoContext}}>
+    <TodoContext.Provider value={{state: todoContext, newTodo}}>
       <div className="App">
         <TodoList />
+        <NewTodo />
       </div>
     </TodoContext.Provider>
   );
