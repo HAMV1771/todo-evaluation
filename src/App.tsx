@@ -11,11 +11,17 @@ interface ITodoState {
 
 interface ITodoContext {
   state: ITodoState;
-  newTodo: (todo: ITodoListItem) => void;
-  updateTodo: (todo: ITodoListItem) => void;
-  checkTodo: (id: string) => void;
-  deleteTodo: (id: string) => void;
+  newTodo: (todo:ITodoListItem) => void;
+  updateTodo: (todo:ITodoListItem) => void;
+  checkTodo: (id:string) => void;
+  deleteTodo: (id:string) => void;
+  moveTodo: (moveTodo:IMoveTodo) => void;
 };
+
+interface IMoveTodo {
+  removedIndex:number;
+  addedIndex:number;
+}
 
 const initialState:ITodoState = {
   items: [
@@ -81,8 +87,20 @@ function App() {
     }));
   }
 
+  const moveTodo = ({removedIndex, addedIndex}:IMoveTodo) => {
+    setTodoContext((prevState:ITodoState) => {
+      let items = [...prevState.items];
+      items.splice(addedIndex, 0, items.splice(removedIndex, 1)[0]);
+
+      return {
+        ...prevState,
+        items,
+      }
+    });
+  }
+
   return (
-    <TodoContext.Provider value={{state: todoContext, newTodo, checkTodo, deleteTodo, updateTodo}}>
+    <TodoContext.Provider value={{state: todoContext, newTodo, checkTodo, deleteTodo, updateTodo, moveTodo}}>
       <div className="App">
         <TodoList />
         <NewTodo />

@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
-import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
+import React, { useContext } from 'react';
+import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { TodoContext } from '../../App';
 
 export interface ITodoListItem {
@@ -40,7 +41,6 @@ const TodoListItem = ({item, onEdit}:IProps) => {
       secondaryAction={
         <IconButton
           edge="end"
-          aria-label="comments"
           onClick={handleDelete}
         >
           <DeleteIcon />
@@ -48,6 +48,11 @@ const TodoListItem = ({item, onEdit}:IProps) => {
       }
       disablePadding
     >
+      <ListItemButton sx={{m:0, p: 1, flex: 0}} disableRipple>
+        <ListItemIcon sx={{p:0, m:0, minWidth: 32}}>
+          <DragIndicatorIcon />
+        </ListItemIcon>
+      </ListItemButton>
       <ListItemButton onClick={handleToggle} sx={{m:0, p: 1, flex: 0}}>
         <ListItemIcon sx={{p:0, m:0, minWidth: 42}}>
           <Checkbox

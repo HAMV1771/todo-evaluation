@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import { List, Stack, TextField } from "@mui/material";
+import { Container, Draggable } from '@smooth-dnd/react'
+
 import TodoListItem, { ITodoListItem } from './TodoListItem';
 import { TodoContext } from "../../App";
 import Modal from "../Modal/Modal";
@@ -43,6 +45,11 @@ const TodoList = () => {
     }
   }
 
+  const handleDrop = (dropResult:any) => {
+    const {removedIndex, addedIndex} = dropResult;
+    ctx?.moveTodo({removedIndex, addedIndex})
+  }
+
   return (
     <>
       <Modal isOpen={!!editingTodo} onClose={handleCloseModal} onSave={handleSave}>
@@ -65,13 +72,17 @@ const TodoList = () => {
         </form>
       </Modal>
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {
-          items.map((item, itemIndex) => {
-            return (
-              <TodoListItem key={`todo-list-item-${itemIndex}`} item={item} onEdit={handleEditStart} />
-            );
-          })
-        }
+        <Container onDrop={handleDrop}>
+          {
+            items.map((item, itemIndex) => {
+              return (
+                <Draggable key={item.id}>
+                  <TodoListItem item={item} onEdit={handleEditStart} />
+                </Draggable>
+              );
+            })
+          }
+        </Container>
       </List>
     </>
   );
