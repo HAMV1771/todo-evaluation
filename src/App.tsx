@@ -1,10 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 import './App.css';
 import TodoList from './components/TodoList';
 import { ITodoListItem } from './components/TodoList/TodoListItem';
 import NewTodo from './components/NewTodo';
-import { Container, Paper } from '@mui/material';
+import { AppBar, Box, Container, Paper, Toolbar, Typography } from '@mui/material';
 
 interface ITodoState {
   items: ITodoListItem[];
@@ -25,26 +25,26 @@ interface IMoveTodo {
 }
 
 const initialState:ITodoState = {
-  items: [
-    {
-      id: '1',
-      status: false,
-      title: "First demo dummy",
-      description: "",
-    },
-    {
-      id: '2',
-      status: false,
-      title: "Second demo dummy",
-      description: "",
-    },
-  ],
+  items: [],
 };
+
+const getInitialState = () => {
+  const storedState = window.localStorage.getItem("todo-list");
+  return !!storedState?.length ? JSON.parse(storedState) : initialState;
+}
 
 export const TodoContext = createContext<ITodoContext | null>(null);
 
 function App() {
-  const [todoContext, setTodoContext] = useState<ITodoState>(initialState);
+  const [todoContext, setTodoContext] = useState<ITodoState>(getInitialState());
+
+  const persistState = () => {
+    window.localStorage.setItem("todo-list", JSON.stringify(todoContext));
+  }
+
+  useEffect(() => {
+    persistState();
+  }, [todoContext]);
 
   const newTodo = (todo:ITodoListItem) => {
     setTodoContext((prevState:ITodoState) => ({
@@ -102,6 +102,20 @@ function App() {
 
   return (
     <TodoContext.Provider value={{state: todoContext, newTodo, checkTodo, deleteTodo, updateTodo, moveTodo}}>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              To-do Evaluation App
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, position: "relative"}}>
           <TodoList />

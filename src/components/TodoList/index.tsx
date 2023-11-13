@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
-import { List, Stack, TextField } from "@mui/material";
+import { List, ListItem, ListItemText, Stack, TextField, Typography } from "@mui/material";
 import { Container, Draggable } from '@smooth-dnd/react'
+import AddReactionIcon from '@mui/icons-material/AddReaction';
 
 import TodoListItem, { ITodoListItem } from './TodoListItem';
 import { TodoContext } from "../../App";
@@ -47,7 +48,9 @@ const TodoList = () => {
 
   const handleDrop = (dropResult:any) => {
     const {removedIndex, addedIndex} = dropResult;
-    ctx?.moveTodo({removedIndex, addedIndex})
+    if(removedIndex >= 0 && addedIndex >= 0) {
+      ctx?.moveTodo({removedIndex, addedIndex})
+    }
   }
 
   return (
@@ -83,6 +86,13 @@ const TodoList = () => {
             })
           }
         </Container>
+        {
+          !items.length && (
+            <ListItem>
+              <ListItemText primary={<><AddReactionIcon sx={{fontSize: '3rem', color:"#00a819"}} /><Typography color="#00a819" variant="h2">Well Done!</Typography></>} secondary="Your to-do list is empty, to get started, click the add button!" />
+            </ListItem>
+          )
+        }
       </List>
     </>
   );
