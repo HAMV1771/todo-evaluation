@@ -4,6 +4,7 @@ import './App.css';
 import TodoList from './components/TodoList';
 import { ITodoListItem } from './components/TodoList/TodoListItem';
 import NewTodo from './components/NewTodo';
+import { Container, Paper } from '@mui/material';
 
 interface ITodoState {
   items: ITodoListItem[];
@@ -101,10 +102,12 @@ function App() {
 
   return (
     <TodoContext.Provider value={{state: todoContext, newTodo, checkTodo, deleteTodo, updateTodo, moveTodo}}>
-      <div className="App">
-        <TodoList />
-        <NewTodo />
-      </div>
+      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, position: "relative"}}>
+          <TodoList />
+          <NewTodo />
+        </Paper>
+      </Container>
     </TodoContext.Provider>
   );
 }

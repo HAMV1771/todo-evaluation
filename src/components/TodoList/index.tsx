@@ -71,7 +71,7 @@ const TodoList = () => {
           </Stack>
         </form>
       </Modal>
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      <List sx={{ width: '100%', maxHeight: "60vh", overflow:"auto" }}>
         <Container onDrop={handleDrop}>
           {
             items.map((item, itemIndex) => {

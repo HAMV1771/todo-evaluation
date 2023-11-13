@@ -8,7 +8,11 @@ interface IProps {
 
 const NewTodoFAB = ({onClick}:IProps) => {
   return (
-    <Fab color="primary" aria-label="add" onClick={onClick}>
+    <Fab color="primary" aria-label="add" onClick={onClick} sx={{
+      position: 'absolute',
+      bottom: 16,
+      right: 16,
+    }}>
       <AddIcon />
     </Fab>
   );
