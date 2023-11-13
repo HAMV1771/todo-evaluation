@@ -44,26 +44,34 @@ const NewTodo = () => {
       ...prevState,
       [prop]: val
     }));
-  }
+  };
+
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
+
+    handleSave();
+  };
 
   return (
     <Box sx={{p: 2}}>
       <NewTodoModal isOpen={isOpen} onClose={handleCloseModal} onSave={handleSave}>
-        <Stack spacing={2}>
-          <TextField
-            required
-            label="Title"
-            value={formData.title}
-            onChange={(e:any) => updateFormData("title", e.target.value)}
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={2}>
+            <TextField
+              required
+              label="Title"
+              value={formData.title}
+              onChange={(e:any) => updateFormData("title", e.target.value)}
+              />
+            <TextField
+              label="Description"
+              multiline
+              minRows={4}
+              value={formData.description}
+              onChange={(e:any) => updateFormData("description", e.target.value)}
             />
-          <TextField
-            label="Description"
-            multiline
-            minRows={4}
-            value={formData.description}
-            onChange={(e:any) => updateFormData("description", e.target.value)}
-          />
-        </Stack>
+          </Stack>
+        </form>
       </NewTodoModal>
 
       <NewTodoFAB onClick={handleOpenModal} />

@@ -12,6 +12,8 @@ interface ITodoState {
 interface ITodoContext {
   state: ITodoState;
   newTodo: (todo: ITodoListItem) => void;
+  checkTodo: (id: string) => void;
+  deleteTodo: (id: string) => void;
 };
 
 const initialState:ITodoState = {
@@ -46,8 +48,30 @@ function App() {
     }));
   }
 
+  const checkTodo = (id:string) => {
+    setTodoContext((prevState:ITodoState) => ({
+      ...prevState,
+      items: prevState.items.map((item:ITodoListItem) => {
+        if(item.id === id) {
+          return {
+            ...item,
+            status: !item.status
+          };
+        }
+
+        return item;
+      })
+    }));
+  }
+  const deleteTodo = (id:string) => {
+    setTodoContext((prevState:ITodoState) => ({
+      ...prevState,
+      items: prevState.items.filter((item:ITodoListItem) => item.id !== id)
+    }));
+  }
+
   return (
-    <TodoContext.Provider value={{state: todoContext, newTodo}}>
+    <TodoContext.Provider value={{state: todoContext, newTodo, checkTodo, deleteTodo}}>
       <div className="App">
         <TodoList />
         <NewTodo />

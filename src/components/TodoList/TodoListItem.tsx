@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { TodoContext } from '../../App';
 
 export interface ITodoListItem {
   id?: string;
@@ -14,12 +15,18 @@ interface IProps {
 }
 
 const TodoListItem = ({item}:IProps) => {
+  const ctx = useContext(TodoContext);
+
   const handleToggle = () => {
-    console.log('toggling', item);
+    if(!!item.id) {
+      ctx?.checkTodo(item.id);
+    }
   }
 
   const handleDelete = () => {
-    console.log('deleting', item);
+    if(!!item.id) {
+      ctx?.deleteTodo(item.id);
+    }
   }
 
   return (
