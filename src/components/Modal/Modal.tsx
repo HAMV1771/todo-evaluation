@@ -9,7 +9,7 @@ interface IProps {
   children: any;
 }
 
-const NewTodoModal = ({isOpen, onClose, onSave, children}:IProps) => {
+const Modal = ({isOpen, onClose, onSave, children}:IProps) => {
   return (
     <Dialog open={isOpen} onClose={onClose} maxWidth="sm">
       <DialogTitle>Add Todo</DialogTitle>
@@ -34,4 +34,4 @@ const NewTodoModal = ({isOpen, onClose, onSave, children}:IProps) => {
   );
 };
 
-export default NewTodoModal;
+export default Modal;

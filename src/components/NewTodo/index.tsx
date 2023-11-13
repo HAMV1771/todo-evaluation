@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import NewTodoModal from './NewTodoModal';
+import NewTodoModal from '../Modal/Modal';
 import NewTodoFAB from './NewTodoFAB';
 import { Box, Stack, TextField } from '@mui/material';
 import { TodoContext } from '../../App';
